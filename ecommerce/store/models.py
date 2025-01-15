@@ -32,8 +32,8 @@ class Category(models.Model):
             self.slug = slugify(generate_slug() + 'pick' + self.name)  
         super(Category, self).save(*args, **kwargs)
     
-    #def get_absolute_url(self):
-        #return reverse("model_detail", kwargs={"pk": self.pk})
+    def get_absolute_url(self):
+        return reverse("store:category_list", args = [str(self.slug)])
 
 
 class Item(models.Model):
@@ -54,8 +54,8 @@ class Item(models.Model):
     def __str__(self):
         return self.name
     
-    #def get_absolute_url(self):
-        #return reverse("model_detail", kwargs={"pk": self.pk})
+    def get_absolute_url(self):
+        return reverse("store:item_detail", args=[str(self.slug)])
 
 class ItemManager(models.Manager):
     """

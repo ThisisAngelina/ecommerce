@@ -1,0 +1,103 @@
+<nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm ">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'store:items' %}"><i class="fa-solid fa-shop me-2"></i>
+            <strong>ReFRESH</strong></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <form action="{% url 'store:search' %}" method="get">
+            <div class="mx-auto my-3 d-lg-none d-sm-block d-xs-block">
+            <div class="input-group">
+                <span class="border-success input-group-text bg-success text-white"><i
+                        class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" name="q" placeholder="ex. Dior foundation" class="form-control border-success" style="color: #7a7a7a" />
+                <button class="btn btn-success text-dark search-button">Search</button>
+            </div>
+        </div>
+    </form>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <form action="{% url 'store:search' %}" method="get">
+            <div class="ms-auto d-none d-lg-block">
+                <div class="input-group">
+                    <span class="border-success input-group-text text-white search-button"><i
+                            class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" name="q" placeholder="ex. Dior foundation" class="form-control border-success" style="color: #7a7a7a" />
+                    <button class="btn btn-success text-dark search-button">Search</button>
+                </div>
+            </div>
+        </form>
+        <ul class="navbar-nav ms-auto">
+            {% for category in categories %}
+                {% if category.children.exists %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{{ category.get_absolute_url }}" id="navbarDropdownMenuLink"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           {{ category.name|upper }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            {% for child in category.children.all %}
+                                <li>
+                                    <a class="dropdown-item" href="{{ child.get_absolute_url }}">{{ child.name|upper }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% elif category.parent is None%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ category.get_absolute_url }}">{{ category.name|upper }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+            
+            <ul class="navbar-nav ms-auto">
+                 {% comment %}
+                 #TODO cart 
+                <li class="nav-item">
+                    <a class="nav-link mx-2 text-uppercase" href="{% url 'cart:cart-view' %}"> <i   
+                            class="fa fa-shopping-cart" aria-hidden="true"> </i> Cart
+                        <span id="lblCartCount" class="badge badge-warning ">
+
+                            {% with cart_qty=cart|length%}
+                            {% if cart_qty > 0 %}
+                            {{cart_qty}}
+                            {% else %}
+                            0
+                            {% endif %}
+
+                            {% endwith %}
+                        </span>
+                    </a>
+                </li>
+                {% endcomment %}
+                 {% comment %}
+                {% if request.user.is_authenticated %}
+
+                <li class="nav-item">
+                    <a class="nav-link mx-2 text-uppercase" href="{% url 'account:dashboard' %}"><i
+                            class="fa-solid fa-circle-user me-1"></i>@{{ user.username }} Account</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link mx-2 text-uppercase" href="{% url 'account:logout' %}"><i
+                            class="fa-solid fa-circle-user me-1"></i> Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link mx-2 text-uppercase" href="{% url 'account:register' %}"><i
+                            class="fa-solid fa-circle-user me-1"></i> Sign up </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2 text-uppercase" href="{% url 'account:login' %}"><i
+                            class="fa-solid fa-circle-user me-1"></i> Login</a>
+                </li>
+                {% endif %}
+
+                 {% endcomment %}
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
