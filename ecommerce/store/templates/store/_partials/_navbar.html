@@ -57,7 +57,7 @@
                     <a class="nav-link mx-2 text-uppercase" href="{% url 'cart:cart_view' %}"> <i   
                             class="fa fa-shopping-cart" aria-hidden="true"> </i> Cart
                         <span id="lblCartCount" class="badge badge-warning ">
-                            {% comment %}
+                     
                             {% with cart_qty=cart|length%}
                             {% if cart_qty > 0 %}
                             {{cart_qty}}
@@ -66,7 +66,7 @@
                             {% endif %}
 
                             {% endwith %}
-                               {% endcomment %}
+                      
                         </span>
                     </a>
                 </li>

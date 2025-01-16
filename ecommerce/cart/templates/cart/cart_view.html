@@ -110,20 +110,23 @@
           {{ cart.get_total_price }}
         </div>
       </div>
+      {% comment %}
       <button
                   type="button"
                   class="btn btn-success btn-md text-bg-light mt-4"
             
                 >
+                
                 <a class="nav-link text-decoration-none" href="{% url 'payment:checkout' %}">Checkout</a>
                 </button>
+                {% endcomment %}
     </div>
   </div>
 
   <br />
   <br />
 </main>
-
+{% comment %}
 <script>
 
     $(document).on('click', '.delete-button', function(e){
@@ -180,5 +183,6 @@
 
     
 </script>
+{% endcomment %}
 
 {% endblock %}

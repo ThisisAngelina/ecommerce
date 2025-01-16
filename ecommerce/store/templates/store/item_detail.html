@@ -77,7 +77,7 @@
                             <div class="col-6 text-end">
 
                                 <button type="button" id="add-button" value="{{item.id}}"
-                                    class="btn btn-secondary btn-sm">
+                                    class="btn btn-primary btn-sm">
 
                                     Add to cart
 
@@ -106,7 +106,9 @@
 </div>
 
 <script>
-    const add_button = document.getElementById('add-button')
+    const add_button = document.getElementById('add-button');
+    const quantity_selector = document.getElementById('select');
+    
     $(document).on('click', '#add-button', function (e) {
         e.preventDefault();
         $.ajax({
@@ -114,7 +116,7 @@
             url: '{% url "cart:add_to_cart" %}',
             data: {
                 item_id: add_button.value,
-                item_qty: $('#select option:selected').text(),
+                item_qty: quantity_selector.value,
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'POST'
             },

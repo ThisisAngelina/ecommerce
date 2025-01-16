@@ -16,9 +16,7 @@ class Cart():
         self.cart = cart
 
     def __len__(self):
-        sum = sum(item['qty'] for item in self.cart.values())
-        print(f"there are {sum} items in the cart")
-        return sum
+        return sum(item['qty'] for item in self.cart.values())
     
 
     
@@ -27,9 +25,11 @@ class Cart():
 
         if item_id not in self.cart: # if the product is not yet in the cart, add the product
             self.cart[item_id] = {'qty': quantity, 'price': str(item.price)}
+            print("the quantity of this item in the cart is " + str(self.cart[item_id]['qty']))
 
         else: # otherwise, update the quantity
             self.cart[item_id]['qty'] = quantity
+            print("the quantity of this item in the cart is " + str(self.cart[item_id]['qty']))
 
         self.session.modified = True
 
