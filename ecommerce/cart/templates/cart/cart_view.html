@@ -1,4 +1,9 @@
-{% include "store/base.html" %} {% load static %} {% load mathfilters %} {% block content %}
+{% include "store/base.html" %} 
+{% load static %} {% load mathfilters %} 
+
+
+
+{% block content %}
 
 <main class="pt-5">
   <div class="container">
@@ -18,7 +23,7 @@
           class="img-fluid mx-auto d-block"
           width="200px"
           alt="Responsive image"
-          src="{{product.full_image_url}}"
+          src="{{item.image.url}}"
         />
       </div>
 
@@ -27,13 +32,13 @@
           href="{{item.get_absolute_url}}"
           class="text-info text-decoration-none"
         >
-          <h1 class="h5 pt-2">{{item.title}}</h1>
+          <h1 class="h5 pt-2">{{item.name}}</h1>
         </a>
 
         <div class="border">
           <div class="col border-bottom">
             <div class="row p-3">
-              <div class="col-6">item</div>
+              <div class="col-6">{{item.brand}} - {{item.name}}</div>
 
               <div class="col-6 text-end">
                 {%if item.discount%}
@@ -107,7 +112,7 @@
       <div class="h6 fw-bold">
         Total: $
         <div id="total" class="d-inline-flex">
-          {{ cart.get_total_price }}
+          {{ cart.get_total_value }}
         </div>
       </div>
       {% comment %}

@@ -25,7 +25,10 @@ def cart_add(request):
         return response
 
 def cart_update(request):
-    pass
+    cart = Cart(request)
+    context = {'cart': cart}
+    return render(request, 'cart/cart_view.html', context)
+
 
 def cart_delete(request):
     pass
