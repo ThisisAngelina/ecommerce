@@ -7,7 +7,7 @@
 
 <main class="pt-5">
   <div class="container">
-    <h1 class="h5">Cart</h1>
+    <h1 class="h5">Cart:</h1>
 
     <hr />
 
@@ -88,7 +88,7 @@
                   class="btn btn-danger btn-sm delete-button"
                   data-index="{{item.id}}"
                 >
-                  Delete
+                  Remove
                 </button>
 
                 
@@ -131,7 +131,7 @@
   <br />
   <br />
 </main>
-{% comment %}
+
 <script>
 
     $(document).on('click', '.delete-button', function(e){
@@ -139,42 +139,42 @@
 
         $.ajax({
             type: 'POST',
-            url: '{% url "cart:delete-to-cart" %}',
+            url: '{% url "cart:delete_from_cart" %}',
             data: {
                 item_id: $(this).data('index'),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
-                action: 'post'
+                action: 'POST'
             },
             success: function(response){
-                document.getElementById('lblCartCount').textContent = response.qty
-                document.getElementById('total').textContent = response.total
-
+                document.getElementById('lblCartCount').textContent = response.qty // recieved from views.cart_delete
+                document.getElementById('total').textContent = response.total // recieved from views.cart_delete
                 location.reload()
             },
             error: function(error, status){
                 console.log(error)
             }
         })
+        
     });
 
     $(document).on('click', '.update-button', function(e){
         e.preventDefault();
 
-        var item_id = $(this).data('index')
+        let item_id = $(this).data('index')
 
         $.ajax({
             type: 'POST',
-            url: '{% url "cart:update-to-cart" %}',
+            url: '{% url "cart:update_cart" %}',
             data: {
                 item_id: $(this).data('index'),
                 item_qty: $('#select'+item_id+ ' option:selected').text(),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
-                action: 'post'
+                action: 'POST'
             },
             success: function(response){
                 document.getElementById('lblCartCount').textContent = response.qty
                 document.getElementById('total').textContent = response.total
-
+              
                 location.reload()
             },
             error: function(error, status){
@@ -188,6 +188,6 @@
 
     
 </script>
-{% endcomment %}
+
 
 {% endblock %}

@@ -32,8 +32,6 @@ class Cart():
             yield item
 
 
-
-    
     def add(self, item, quantity):
         item_id = str(item.id)
 
@@ -47,6 +45,26 @@ class Cart():
 
         self.session.modified = True
 
+    def delete(self, item_id):
+        item_id = str(item_id)
+        print(f'the item id passed to the cart.delete method is {item_id}')
+
+        if item_id in self.cart:
+            print('there was this item in the cart and it was successfully deleted as part of the cart.delete method')
+            del self.cart[item_id]
+            self.session.modified = True
+
+    def update(self, item_id, quantity):
+        item_id = str(item_id)
+        quantity = quantity
+        print(f'the item id passed to the cart.update method is {item_id}')
+
+        if item_id in self.cart:
+            self.cart[item_id]['qty'] = quantity
+            print(f'the quantity of the item was successfully modified to {quantity} as part of the cart.update method')
+            self.session.modified = True
+
     def get_total_value(self):
         return sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
 
+ 

@@ -5,7 +5,9 @@ from store.models import ItemProxy
 from .cart import Cart
 
 def cart_view(request):
-    return render(request, 'cart/cart_view.html')
+    cart = Cart(request)
+    context = {'cart': cart}
+    return render(request, 'cart/cart_view.html', context)
 
 def cart_add(request):
     cart = Cart(request)
@@ -21,14 +23,42 @@ def cart_add(request):
         cart_qty = cart.__len__()
 
         response = JsonResponse({'qty': cart_qty, 'item': item.name})
-        print('the cart quantity is ' + str(cart_qty))
+        
+        print(f'item successfully added. There are now {cart.__len__()} items in the cart')
         return response
 
 def cart_update(request):
     cart = Cart(request)
-    context = {'cart': cart}
-    return render(request, 'cart/cart_view.html', context)
+     
+    if request.POST.get('action') == 'POST':
+        item_id = int(request.POST.get('item_id'))
+        quantity = int(request.POST.get('item_qty'))
+        cart.update(item_id=item_id, quantity=quantity)
+
+
+        #recalculate the values for the cart total and the number of items in the cart 
+        cart_qty = cart.__len__()
+        cart_total = cart.get_total_value()
+
+        print(f'item successfully updated. There are now {cart_qty} total items in the cart')
+        response = JsonResponse({'qty': cart_qty, 'total': cart_total})
+        return response 
+    
+
 
 
 def cart_delete(request):
-    pass
+    cart = Cart(request)
+     
+    if request.POST.get('action') == 'POST':
+        item_id = int(request.POST.get('item_id'))
+        cart.delete(item_id=item_id)
+
+        #recalculate the values for the cart total and the number of items in the cart 
+        cart_qty = cart.__len__()
+        cart_total = cart.get_total_value()
+
+        print(f'item successfully deleted. There are now {cart_qty} total items in the cart')
+        response = JsonResponse({'qty': cart_qty, 'total': cart_total})
+        return response 
+    
