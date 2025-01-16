@@ -12,7 +12,7 @@ body {
   width: 500px;
 }
 
-.badge {
+.badge { /* Displays the number of articles added to the cart */
   padding-left: 9px;
   padding-right: 9px;
   -webkit-border-radius: 9px;

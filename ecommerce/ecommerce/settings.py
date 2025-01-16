@@ -42,11 +42,13 @@ INSTALLED_APPS = [
     #third party libraries
    
     'sorl.thumbnail',
+    'mathfilters',
     
 
 
     #apps 
     'store.apps.StoreConfig',
+    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'store.context_processor.categories', #retrieves all product categories to display in the base template
+                'store.context_processor.categories', #retrieves all product categories in a context dict to display in the base template 
+                'cart.context_processor.get_cart', # retrieves a cart instance in a context dict
             ],
         },
     },

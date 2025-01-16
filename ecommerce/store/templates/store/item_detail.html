@@ -104,31 +104,29 @@
 {% endcomment %}
 
 </div>
-{% comment %}
-  <!-- TODO to edit once the cart is built
+
 <script>
+    const add_button = document.getElementById('add-button')
     $(document).on('click', '#add-button', function (e) {
         e.preventDefault();
-
         $.ajax({
             type: 'POST',
-            url: '{% url "cart:add-to-cart" %}',
+            url: '{% url "cart:add_to_cart" %}',
             data: {
-                item_id: $('#add-button').val(),
+                item_id: add_button.value,
                 item_qty: $('#select option:selected').text(),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
-                action: 'post'
+                action: 'POST'
             },
             success: function (response) {
-                document.getElementById('lblCartCount').textContent = response.qty
-                const add_button = document.getElementById('add-button')
+                document.getElementById('lblCartCount').textContent = response.qty // update the number label next to the cart symbol in the navbar
                 add_button.disabled = true
                 add_button.innerText = "Added to cart"
                 add_button.className = "btn btn-success btn-sm"
 
             },
             error: function (error) {
-                console.log(error)
+                console.log(error) // TODO add to server logs later
             }
         })
 
@@ -136,6 +134,5 @@
 
 
 </script>
- -->
-{% endcomment %}
+
 {% endblock %}
