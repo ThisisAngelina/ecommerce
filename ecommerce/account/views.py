@@ -6,7 +6,7 @@ from django_email_verification import send_email
 
 User = get_user_model()
 
-from .forms import UserCreateForm
+from .forms import UserCreateForm, LoginForm
 
 def register(request):
 
@@ -35,5 +35,29 @@ def register(request):
 
 
 
-def login(request):
-    return render(request, 'account/login/login.html')
+def login_user(request):
+
+    # if the user is already logged in:
+    if request.user.is_authenticated:
+        return redirect('/')
+
+    if request.method == 'POST':
+     
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"You are now logged in as {username}")
+            return redirect('/')
+        
+        else: 
+            messages.info(request, 'Username or password is incorrect')
+            return redirect('account:login')
+
+
+    else:
+        form = LoginForm()
+        return render(request, 'account/login/login.html', {'form': form})

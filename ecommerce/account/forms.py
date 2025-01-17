@@ -30,3 +30,7 @@ class UserCreateForm(UserCreationForm):
             raise forms.ValidationError("Hmm please try signing up with a different email address")
         
         return email
+    
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(widget=TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=PasswordInput(attrs={'class': 'form-control'}))
