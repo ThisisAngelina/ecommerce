@@ -6,7 +6,7 @@ from django_email_verification import send_email
 
 User = get_user_model()
 
-from .forms import UserCreateForm, LoginForm
+from .forms import UserCreateForm, LoginForm, UserUpdateForm
 
 def register(request):
 
@@ -61,3 +61,39 @@ def login_user(request):
     else:
         form = LoginForm()
         return render(request, 'account/login/login.html', {'form': form})
+    
+def logout_user(request):
+
+    # delete the session if the user logs out
+    session_keys = list(request.session.keys())
+    for key in session_keys:
+        if key == 'session_key':
+            continue
+        del request.session[key]
+    logout(request)
+    return redirect('/')
+
+@login_required
+def view_dashboard(request):
+    return render(request,'account/dashboard/view_dashboard.html')
+
+@login_required
+def manage_profile(request):
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect('account:view_dashboard')
+    else:
+        form = UserUpdateForm(instance=request.user)
+    return render(request, 'account/dashboard/manage_profile.html', {'form': form})
+
+
+@login_required
+def delete_user(request):
+    user = User.objects.get(id=request.user.id)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('/')
+    return render(request, 'account/dashboard/delete_account.html')
