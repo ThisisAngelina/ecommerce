@@ -9,22 +9,31 @@ User = get_user_model()
 from .forms import UserCreateForm
 
 def register(request):
+
     if request.method == 'POST':
         form = UserCreateForm(request.POST)
 
-        # get data from the form
         if form.is_valid():
-            user = form.save(commit=False)
-            user_email = form.cleaned_data.get('email')
+            form.save(commit=False)
+            email = form.cleaned_data.get('email')
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
 
-        # create a new user account 
-            new_user = User.objects.create_user(username=username, email=user_email, password=password)
-        
-        # keep the user inactive for the moment, until they confirm their email address
-            new_user.is_active = False
+            #Create new user
+            user = User.objects.create_user(
+                username=username, email=email, password=password
+            )
+
+            user.is_active = False
+
+            send_email(user)
+            
+            return redirect('/account/verify-email')
     else:
         form = UserCreateForm()
-    return render(request, 'account/register.html', {'form': form})
+    return render(request, 'account/registration/register.html', {'form': form}) 
 
+
+
+def login(request):
+    return render(request, 'account/login/login.html')

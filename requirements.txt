@@ -5,6 +5,7 @@ Django==5.1.4
 django-crispy-forms==2.3
 django-debug-toolbar==5.0.1
 django-email-verification==0.3.3
+django-environ==0.12.0
 django-mathfilters==1.0.0
 packaging==24.2
 pillow==11.1.0

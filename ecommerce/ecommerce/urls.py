@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import include, path
 from django.conf.urls.static import static
+from django_email_verification import urls as email_urls
 
 
 urlpatterns = [
@@ -9,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls), 
     path('cart/', include('cart.urls')),
     path('account/', include('account.urls')),
+    path('email/', include(email_urls), name='verify_email'),
 ]
 
 if settings.DEBUG:
