@@ -43,12 +43,16 @@ INSTALLED_APPS = [
    
     'sorl.thumbnail',
     'mathfilters',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'django_email_verification',
     
 
 
     #apps 
     'store.apps.StoreConfig',
     'cart.apps.CartConfig',
+    'account.apps.AccountConfig',
 ]
 
 MIDDLEWARE = [
@@ -142,7 +146,12 @@ MEDIA_ROOT = BASE_DIR / 'media' # handle user-uploaded files
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Needed for the debug toolbar
 INTERNAL_IPS = [
     '127.0.0.1',  # Localhost
     '::1',        # IPv6 for localhost
 ]
+
+#Crispy Forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
