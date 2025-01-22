@@ -62,6 +62,7 @@ def login_user(request):
         form = LoginForm()
         return render(request, 'account/login/login.html', {'form': form})
     
+
 def logout_user(request):
 
     # delete the session if the user logs out

@@ -20,6 +20,9 @@ class ShippingAddress(models.Model):
     country = models.CharField(max_length=100, blank=False, null=False)
     zip_code = models.CharField(max_length=100, blank=False, null=False)
 
+    def __str__(self):
+        return 'Address for ' + str(self.first_name) + ' ' + str(self.last_name)
+
 class Order(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
