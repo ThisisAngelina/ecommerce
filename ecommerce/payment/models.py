@@ -25,7 +25,7 @@ class ShippingAddress(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, blank=True, null=True)
+        User, on_delete=models.CASCADE, blank=True, null=True) # users can place orders without being authenticated
     shipping_address = models.ForeignKey(
         ShippingAddress, on_delete=models.CASCADE, blank=True, null=True)
     amount = models.DecimalField(max_digits=9, decimal_places=2)
@@ -36,8 +36,7 @@ class Order(models.Model):
         default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     class Meta:
-        verbose_name = "Order"
-        verbose_name_plural = "Orders"
+
         ordering = ['-created']
         indexes = [
             models.Index(fields=['-created']),
@@ -75,8 +74,6 @@ class OrderItem(models.Model):
     
 
     class Meta:
-        verbose_name = "OrderItem"
-        verbose_name_plural = "OrderItems"
         ordering = ['-id']
         constraints = [
             models.CheckConstraint(check=models.Q(

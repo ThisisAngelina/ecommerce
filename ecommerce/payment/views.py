@@ -27,14 +27,60 @@ def shipping(request):
         return render(request, 'payment/shipping.html', {'form': form})
 
 def checkout(request):
-    pass
+    if request.user.is_authenticated: # pre-fill their shipping address
+        shipping_address, _ = ShippingAddress.objects.get_or_create(user=request.user)
+        return render(request, 'payment/checkout.html', {'shipping_address': shipping_address})
+    return render(request, 'payment/checkout.html')
 
 def complete_order(request):
-    pass
+    if request.method == 'POST':
+        print("new order was submitted")
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        country = request.POST.get('country') 
+        zip = request.POST.get('zip')
+
+        cart = Cart(request) # create a Cart instance
+        cart_total = cart.get_total_value()
+
+        shipping_address, _ = ShippingAddress.objects.get_or_create(
+                    user=request.user,
+                    defaults={
+                        'first_name': first_name,
+                        'last_name': last_name,
+                        'email': email,
+                        'address': address,
+                        'city': city,
+                        'country': country,
+                        'zip': zip
+                    }
+                )
+        
+
+        if request.user.is_authenticated: # associate a user with the order if the user is known
+            user = request.user
+        else:
+            user = None
+            
+        order = Order.objects.create(user=user, shipping_address=shipping_address, amount=cart_total)
+
+
+        for article in cart:
+            OrderItem.objects.create(user=user, order=order, item=article['item'], price=article['price'], quantity=article['qty'])
+       
+
+
+    return redirect('payment:payment_success')
 
 def payment_success(request):
-    pass
+    for key in list(request.session.keys()):
+        if key == 'session_cart_key':
+            del request.session[key] # clear the cart by deleting the associated cookies
+    return render(request, 'payment/payment_success.html')
 
 def payment_failure(request):
-    pass
+    return render(request, 'payment/payment_failure.html')
 

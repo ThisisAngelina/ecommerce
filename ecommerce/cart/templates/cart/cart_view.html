@@ -115,16 +115,12 @@
           {{ cart.get_total_value }}
         </div>
       </div>
-      {% comment %}
-      <button
-                  type="button"
-                  class="btn btn-success btn-md text-bg-light mt-4"
-            
-                >
+
+      <button type="button" class="btn btn-success btn-md text-bg-light mt-4">
                 
-                <a class="nav-link text-decoration-none" href="{% url 'payment:checkout' %}">Checkout</a>
-                </button>
-                {% endcomment %}
+                <a class="nav-link text-decoration-none" href="{% url 'payment:checkout' %}">Go to checkout</a>
+      </button>
+              
     </div>
   </div>
 
