@@ -1,0 +1,143 @@
+
+{% include "store/base.html" %}
+
+
+{% load static %}
+
+
+{% block content %}
+
+ 
+
+    <div class="container bg-white shadow-md p-5" style="width:500px; border-radius:20px;">
+
+        <form id="form" action="{% url 'payment:complete_order' %}" method="post">
+
+            <div>
+
+                <h3> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i> &nbsp; Complete your order </h3>
+
+                <p> Please enter your information below. </p>
+
+
+
+                <hr>
+
+                <br>
+
+                <div class="form-field">
+                
+                    <input class="form-control validate" id="first_name" type="text" placeholder="First name*" autocomplete="off" value="{{shipping_address.first_name}}" required>
+
+                </div>
+
+
+                <br>
+
+                <div class="form-field">
+                
+                    <input class="form-control validate" id="last_name" type="text" placeholder="Last name*" autocomplete="off" value="{{shipping_address.last_name}}" required>
+
+                </div>
+
+                <br>
+
+                <div class="form-field">
+
+                    <input class="form-control validate" id="email" type="email" placeholder="Email address*" autocomplete="off" value="{{shipping_address.email}}" required>
+
+                </div>
+
+                
+                <br>
+
+                
+                <div class="form-field">
+
+                    <input class="form-control validate" id="address" type="text" placeholder="Street address*" autocomplete="off" value="{{shipping_address.street_name_number}}" required>
+
+                </div>
+
+
+                <br>
+
+
+                <div class="form-field">
+
+                    <input class="form-control validate" id="city" type="text" placeholder="City*" autocomplete="off" value="{{shipping_address.city}}" required>
+
+                </div> 
+
+
+                <br>
+
+
+                <div class="form-field">
+
+                    <input class="form-control" id="country" type="text" placeholder="Country*" autocomplete="off" value="{{shipping_address.country}}" required>
+
+                </div>
+
+
+                <br>
+
+
+                <div class="form-field">
+
+                    <input class="form-control" id="zipcode" type="text" placeholder="Zip code*" autocomplete="off" value="{{shipping_address.zip}}" required>
+
+                </div>
+        
+            </div>
+
+            <br>
+                {% csrf_token %}
+
+
+            {%comment%}
+            <button id="complete-order-stripe" type="submit" class="btn btn-primary navbar-btn text-white" name="stripe-payment" value="stripe-payment"> &nbsp; Pay with Stripe </button>
+
+            <br>
+             {%endcomment%}
+             <button id="complete-order" type="submit" class="btn btn-primary navbar-btn text-white" value="complete_order"> &nbsp; Complete my order </button>
+
+            <br>
+
+        </form>
+
+    </div>
+
+    <br>
+
+<script>
+    
+    $(document).on('click', '#complete_order', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "payment:complete_order" %}',
+            data: {
+                first_name: $('#first_name').val(),
+                last_name: $('#last_name').val(),
+                email: $('#email').val(),
+                address: $('#address').val(),
+                city: $('#city').val(),
+                country: $('#country').val(),
+                zip: $('#zipcode').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'payment'
+            },
+            success: function (response) {
+                window.location.href = "{% url 'payment:payment_success' %}"l;
+            },
+            error: function (error) {
+                console.log(error) // TODO add to server logs later
+            }
+        })
+
+    })
+
+
+</script>
+
+{% endblock %}
