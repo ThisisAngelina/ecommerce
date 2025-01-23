@@ -15,6 +15,8 @@ import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent # the project directory, where manage.py is located
 
+PROJECT_NAME = 'ReFRESH'
+
 # configure the environment
 env = environ.Env()
 env.read_env(BASE_DIR.parent / '.env')
@@ -53,6 +55,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_email_verification',
+    #'django_celery_beat',
+    'django_celery_results',
     
 
 
@@ -216,3 +220,11 @@ STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
 STRIPE_API_VERSION = '2024-12-18.acacia'
+
+# Celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND ='django-db'
+CELERY_RESULT_EXTENDED = True
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
