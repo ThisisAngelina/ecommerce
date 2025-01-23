@@ -1,11 +1,23 @@
+from decimal import Decimal
+import stripe 
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.urls import reverse
 from django.shortcuts import get_list_or_404, redirect, render
+
+from django.conf import settings
 
 from cart.cart import Cart # the Cart class
 
 from .models import Order, OrderItem, ShippingAddress
 from .forms import ShippingAddressForm
+
+
+# needed for stripe
+stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_version = settings.STRIPE_API_VERSION
+
 
 @login_required
 def shipping(request):
@@ -34,7 +46,6 @@ def checkout(request):
 
 def complete_order(request):
     if request.method == 'POST':
-        print("new order was submitted")
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
@@ -58,7 +69,13 @@ def complete_order(request):
                         'zip': zip
                     }
                 )
-        
+        # create Stripe session data for Stripe checkout
+        session_data = {
+                    'mode': 'payment',
+                    'success_url': request.build_absolute_uri(reverse('payment:payment_success')),
+                    'cancel_url': request.build_absolute_uri(reverse('payment:payment_failure')),
+                    'line_items': []
+                }
 
         if request.user.is_authenticated: # associate a user with the order if the user is known
             user = request.user
@@ -70,10 +87,23 @@ def complete_order(request):
 
         for article in cart:
             OrderItem.objects.create(user=user, order=order, item=article['item'], price=article['price'], quantity=article['qty'])
-       
-
-
-    return redirect('payment:payment_success')
+            
+            # add information on the item purchased for stripe
+            session_data['line_items'].append({
+                            'price_data': {
+                                'unit_amount': int(article['price'] * Decimal(100)),
+                                'currency': 'usd',
+                                'product_data': {
+                                    'name': article['item']
+                                },
+                            },
+                            'quantity': article['qty'],
+                        })
+            
+            session_data['client_reference_id'] = order.id
+            session = stripe.checkout.Session.create(**session_data)
+            return redirect(session.url, code=303) # redirect the user to the success or the cancel url, based on the outcome
+    return render(request, 'payment/checkout.html')
 
 def payment_success(request):
     for key in list(request.session.keys()):
