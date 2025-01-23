@@ -1,4 +1,5 @@
 from django.urls import path
+from .webhooks import stripe_webhook
 
 from . import views as v
 
@@ -10,6 +11,10 @@ urlpatterns = [
     path('shipping/', v.shipping, name='shipping'),
     path('checkout/', v.checkout, name='checkout'),
     path('complete-order/', v.complete_order, name='complete_order'),
+
+    # stripe webhook
+    path('webhook-stripe/', stripe_webhook, name='stripe_webhook'), # activated for testing usign stripe listen --forward-to localhost:8000/payment/webhook-stripe
+
 
 ]
 # to add: order_detail

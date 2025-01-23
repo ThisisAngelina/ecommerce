@@ -100,9 +100,9 @@ def complete_order(request):
                             'quantity': article['qty'],
                         })
             
-            session_data['client_reference_id'] = order.id
-            session = stripe.checkout.Session.create(**session_data)
-            return redirect(session.url, code=303) # redirect the user to the success or the cancel url, based on the outcome
+        session_data['client_reference_id'] = order.id
+        session = stripe.checkout.Session.create(**session_data)
+        return redirect(session.url, code=303) # redirect the user to the success or the cancel url, based on the outcome
     return render(request, 'payment/checkout.html')
 
 def payment_success(request):
