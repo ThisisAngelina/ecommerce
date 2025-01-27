@@ -13,8 +13,10 @@ urlpatterns = [
     path('complete-order/', v.complete_order, name='complete_order'),
 
     # stripe webhook
-    path('webhook-stripe/', stripe_webhook, name='stripe_webhook'), # activated for testing usign stripe listen --forward-to localhost:8000/payment/webhook-stripe
+    path('webhook-stripe/', stripe_webhook, name='stripe_webhook'), # activated for testing usign stripe listen --forward-to localhost:8000/payment/webhook-stripe/
 
+    #admin paths
+    path("order/<int:order_id>/pdf", v.admin_order_pdf, name='admin_order_pdf'),
 
 ]
 # to add: order_detail

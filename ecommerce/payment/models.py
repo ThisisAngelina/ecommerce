@@ -21,7 +21,7 @@ class ShippingAddress(models.Model):
     zip_code = models.CharField(max_length=100, blank=False, null=False)
 
     def __str__(self):
-        return 'Address for ' + str(self.first_name) + ' ' + str(self.last_name)
+        return str(self.city) +  ' , '  + str(self.country)
 
 class Order(models.Model):
     user = models.ForeignKey(
@@ -36,7 +36,8 @@ class Order(models.Model):
         default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     class Meta:
-
+        verbose_name = 'order'
+        verbose_name_plural = 'orders'
         ordering = ['-created']
         indexes = [
             models.Index(fields=['-created']),

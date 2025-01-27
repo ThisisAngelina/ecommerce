@@ -1,0 +1,50 @@
+<html>
+<body>
+<h1>REFresh</h1>
+<p>
+ Invoice # : {{ order.id }}<br>
+<span class="secondary">
+{{ order.created|date:"d M, Y" }}
+</span>
+</p>
+<h3>Issued to: {{ order.user }} </h3>
+<p>
+
+{% with shipping_address=order.shipping_address %}
+{{ shipping_address.first_name }}<br>
+{{ shipping_address.last_name }}<br>
+{{ shipping_address.email }}<br>
+{{ shipping_address.street_name_number }}<br>
+{{ shipping_address.city }}, {{ shipping_address.country }}, {{ shipping_address.zip_code }}, 
+{% endwith %}
+</p>
+<h3>Here's your order: </h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+{% for article in order.articles.all %}
+<tr class="row{% cycle "1" "2" %}">
+    <td>{{ article.item.name }}</td>
+    <td >${{ article.price }}</td>
+    <td >{{ article.qty }}</td>
+    <td >${{ article.total }}</td>
+    </tr>
+    {% endfor %}
+    <tr class="total">
+    <td colspan="3">Total</td>
+    <td class="num">${{ order.get_total_value }}</td>
+    </tr>
+    </tbody>
+    </table>
+    <span class="{% if order.paid %}paid{% else %}pending{% endif %}">
+    {% if order.paid %}Paid{% else %}Pending payment{% endif %}
+    </span>
+    </body>
+    </html>
