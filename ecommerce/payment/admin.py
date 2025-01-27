@@ -66,6 +66,7 @@ export_not_paid_to_csv.short_description = "Export Not Paid to CSV"
 
 
 def order_pdf(obj):
+    ''' An invoice for each order avaiable in the admin panel'''
     url = reverse('payment:admin_order_pdf', args=[obj.id])
     return mark_safe(f'<a href="{url}">PDF</a>')
     

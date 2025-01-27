@@ -56,15 +56,18 @@ class Order(models.Model):
     def get_total_cost_before_discount(self):
         return sum(item.get_cost() for item in self.items.all())
 
-    @property
-    def get_discount(self):
-        if (total_cost := self.get_total_cost_before_discount()) and self.discount:
-            return total_cost * (self.discount / Decimal(100))
-        return Decimal(0)
+
+    #@property
+   # def get_discount(self):
+      #  if (total_cost := self.get_total_cost_before_discount()) and self.discount:
+      #      return total_cost * (self.discount / Decimal(100))
+      #  return Decimal(0)
+
 
     def get_total_cost(self):
+        #total_cost = self.get_total_cost_before_discount() - self.get_discount
         total_cost = self.get_total_cost_before_discount()
-        return total_cost - self.get_discount
+        return total_cost 
     
 class OrderItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)

@@ -25,16 +25,16 @@
 <th>Item</th>
 <th>Price</th>
 <th>Quantity</th>
-<th>Total</th>
+<th>Sub -total</th>
 </tr>
 </thead>
 <tbody>
-{% for article in order.articles.all %}
+{% for article in order.items.all %}
 <tr class="row{% cycle "1" "2" %}">
     <td>{{ article.item.name }}</td>
     <td >${{ article.price }}</td>
-    <td >{{ article.qty }}</td>
-    <td >${{ article.total }}</td>
+    <td >{{ article.quantity }}</td>
+    <td >${{ article.total_cost }}</td>
     </tr>
     {% endfor %}
     <tr class="total">
