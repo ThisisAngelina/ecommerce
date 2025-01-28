@@ -1,121 +1,50 @@
-
-{% include "store/base.html" %}
-
+{%  include "store/base.html" %}
 
 {% load static %}
 
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-<style>
+<div class="container bg-white shadow-md p-5 form-layout">
     
-    body 
-    {
-        
-        background-color: gray;
+    <h3> Checkout </h3>
     
-    }
+    <br>
 
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button id="complete-order-stripe" type="submit" class="btn btn-primary navbar-btn text-white" name="stripe-payment" value="stripe-payment"> &nbsp; Pay with Stripe </button>
 
-</style>
-
-<body>
-
-    <div class="container bg-white shadow-md p-5" style="width:500px; border-radius:20px;">
-
-        <form id="form" action="{% url 'payment:complete_order' %}" method="post">
-
-            <div>
-
-                <h3> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i> &nbsp; Complete your order </h3>
-
-                <p> Please enter your information below. </p>
-
-
-
-                <hr>
-
-                <br>
-
-                <div class="form-field">
-                
-                    <input class="form-control validate" id="first_name" type="text" placeholder="First name*" autocomplete="off" value="{{shipping_address.first_name}}" required>
-
-                </div>
-
-
-                <br>
-
-                <div class="form-field">
-                
-                    <input class="form-control validate" id="last_name" type="text" placeholder="Last name*" autocomplete="off" value="{{shipping_address.last_name}}" required>
-
-                </div>
-
-                <br>
-
-                <div class="form-field">
-
-                    <input class="form-control validate" id="email" type="email" placeholder="Email address*" autocomplete="off" value="{{shipping_address.email}}" required>
-
-                </div>
-
-                
-                <br>
-
-                
-                <div class="form-field">
-
-                    <input class="form-control validate" id="address" type="text" placeholder="Street address*" autocomplete="off" value="{{shipping_address.street_name_number}}" required>
-
-                </div>
-
-
-                <br>
-
-
-                <div class="form-field">
-
-                    <input class="form-control validate" id="city" type="text" placeholder="City*" autocomplete="off" value="{{shipping_address.city}}" required>
-
-                </div> 
-
-
-                <br>
-
-
-                <div class="form-field">
-
-                    <input class="form-control" id="country" type="text" placeholder="Country*" autocomplete="off" value="{{shipping_address.country}}" required>
-
-                </div>
-
-
-                <br>
-
-
-                <div class="form-field">
-
-                    <input class="form-control" id="zipcode" type="text" placeholder="Zip code*" autocomplete="off" value="{{shipping_address.zip}}" required>
-
-                </div>
-        
-            </div>
-
-            <br>
-                {% csrf_token %}
-
-            <button id="complete-order-stripe" type="submit" class="btn btn-primary navbar-btn text-white" name="stripe-payment" value="stripe-payment"> &nbsp; Pay with Stripe </button>
-
-            <br>
-
-
-
-        </form>
-
-    </div>
+    </form>
 
     <br>
 
-</body>
-{% endblock %}
+    {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field in form %}
+                {% if field.errors %}
+                    {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message|safe }}
+                
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+    
+</div>
+
+<br>
+
+{% endblock content %}
