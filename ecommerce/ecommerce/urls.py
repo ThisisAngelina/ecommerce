@@ -7,11 +7,13 @@ from django_email_verification import urls as email_urls
 
 urlpatterns = [
     path('', include('store.urls')),  
-    path('admin/', admin.site.urls), 
+    path('reviews/', include('reviews.urls')),
     path('cart/', include('cart.urls')),
     path('account/', include('account.urls')),
     path('email/', include(email_urls), name='verify_email'),
     path('payment/', include('payment.urls')),
+
+    path('admin/', admin.site.urls), 
 ]
 
 if settings.DEBUG:
