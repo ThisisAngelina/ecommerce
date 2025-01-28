@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.views.generic import ListView
 
 
 from .models import Category, Item, ItemProxy
+from reviews.models import Review
 
 
 class ItemsListView(ListView):
@@ -16,7 +18,23 @@ class ItemsListView(ListView):
         return 'store/items.html'
 
 def item_detail_view(request, slug):
-    item = get_object_or_404(ItemProxy, slug=slug)
+    item = get_object_or_404(ItemProxy.objects.select_related('category'), slug=slug)
+
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            if item.reviews.filter(author=request.user).exists(): # if a user had already left a review
+                messages.error(
+                    request, 'Ooops! You have already left a review on this product!')
+            else: # save the new review
+                rating = request.POST.get('rating', 5)
+                content = request.POST.get('content', '')
+                if content:
+                    item.reviews.create(rating=rating, content=content, author=request.user, item=item)
+                    return redirect(request.path)
+        else:  # the user is not logged in
+            messages.error(
+                request, 'You need to be logged in to leave a review.')
+
     return render(request, 'store/item_detail.html', {'item': item})
 
 def category_view(request, slug):
