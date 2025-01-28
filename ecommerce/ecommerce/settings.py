@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import environ
+from django.contrib import messages
 
 BASE_DIR = Path(__file__).resolve().parent.parent # the project directory, where manage.py is located
 
@@ -157,6 +158,14 @@ STATIC_ROOT = BASE_DIR / 'static' # handle site authors' files
 
 MEDIA_URL = '/media/' # handle user-uploaded files 
 MEDIA_ROOT = BASE_DIR / 'media' # handle user-uploaded files 
+
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+ }
 
 
 # Default primary key field type
