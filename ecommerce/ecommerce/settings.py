@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django_email_verification',
     #'django_celery_beat',
     'django_celery_results',
+    'django_htmx',
     
 
 
@@ -73,9 +74,11 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
