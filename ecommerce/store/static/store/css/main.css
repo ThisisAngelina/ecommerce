@@ -4,117 +4,131 @@ body {
     font-weight: 300;
     font-style: normal;
   }
-  
 }
 
+/* General Form Styling */
 .form-layout {
   border-radius: 20px;
   width: 500px;
 }
 
-.badge { /* Displays the number of articles added to the cart */
+/* Badge */
+.badge {
   padding-left: 9px;
   padding-right: 9px;
-  -webkit-border-radius: 9px;
-  -moz-border-radius: 9px;
   border-radius: 9px;
+  background-color: #A3E4D7; /* Soft minty green */
+  color: #004D40; /* Dark teal */
 }
 
-.label-warning[href],
-.badge-warning[href] {
-  background-color: #B2F5EA; /* Minty blue color */
-}
-
+/* Cart Count Badge */
 #lblCartCount {
   font-size: 12px;
-  background: #B2F5EA; /* Minty blue color */
-  color: #fff;
+  background: #A3E4D7; /* Minty green */
+  color: #004D40;
   padding: 0 5px;
   vertical-align: top;
   margin-left: -2px;
 }
 
-a {
-  font-size: 14px;
-  font-weight: 700;
+/* Minty Theme for Buttons */
+.search-button {
+  background-color: #1ABC9C; /* Vibrant mint */
+  color: white;
+  border: none;
 }
 
-.superNav {
-  font-size: 13px;
+.search-button:hover {
+  background-color: #48C9B0; /* Darker mint */
 }
 
-.form-control {
-  outline: none !important;
-  box-shadow: none !important;
+.btn-primary {
+  background-color: #1ABC9C; /* Vibrant mint */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
+.btn-primary:hover {
+  background-color: #148F77; /* Darker mint */
+  transform: scale(1.05); /* Slight scaling effect */
+}
+
+.btn-primary:active {
+  background-color: #117A65; /* Even darker mint when clicked */
+  transform: scale(0.98); /* Slight shrink effect */
+}
+
+
+
+/* Navbar Hover Effects */
 .navbar-nav li:hover > ul.dropdown-menu {
   display: block;
 }
 
-.dropdown-submenu {
-  position: relative;
-}
-
-.dropdown-submenu > .dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-}
-
-/* rotate caret on hover */
 .dropdown-menu > li > a:hover:after {
   text-decoration: underline;
   transform: rotate(-90deg);
 }
 
-@media screen and (max-width: 540px) {
-  .centerOnMobile {
-    text-align: center;
-  }
-}
-
-/* NavBar Search Button */
-.search-button {
-  background-color: #B2F5EA; /* Minty blue color */
-}
-
+/* Alerts - Adjusted to Minty Shades */
 .alert-primary {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #A3E4D7; /* Mint */
+  color: #004D40;
 }
 
 .alert-secondary {
-  background-color: #6c757d;
+  background-color: #6c757d; /* Neutral gray */
   color: #fff;
 }
 
 .alert-success {
-  background-color: #28a745;
-  color: #fff;
+  background-color: #48C9B0; /* Dark minty green */
+  color: white;
 }
 
 .alert-danger {
-  background-color: #dc3545;
-  color: #fff;
+  background-color: #E74C3C; /* Red - Kept for contrast */
+  color: white;
 }
 
 .alert-warning {
-  background-color: #ffc107;
-  color: #fff;
+  background-color: #F4D03F; /* Light golden yellow */
+  color: #856404;
 }
 
 .alert-info {
-  background-color: #17a2b8;
-  color: #fff;
+  background-color: #1ABC9C; /* Vibrant mint */
+  color: white;
 }
 
 .alert-light {
   background-color: #f8f9fa;
-  color: #212529;
+  color: #004D40;
 }
 
 .alert-dark {
   background-color: #343a40;
-  color: #fff;
+  color: white;
+}
+
+#timer {
+  font-family: Helvetica, sans-serif; 
+  color: #1ABC9C; 
+  font-weight: bold;
+  display: inline-block;
+  background: #D1FAE5; 
+  padding: 5px 12px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+/* Responsive Tweaks */
+@media screen and (max-width: 540px) {
+  .centerOnMobile {
+    text-align: center;
+  }
 }

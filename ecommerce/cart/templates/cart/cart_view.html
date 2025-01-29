@@ -1,7 +1,5 @@
-{% include "store/base.html" %} 
+{% extends "store/base.html" %} 
 {% load static %} {% load mathfilters %} 
-
-
 
 {% block content %}
 
@@ -41,12 +39,8 @@
               <div class="col-6">{{item.brand}} - {{item.name}}</div>
 
               <div class="col-6 text-end">
-                {%if item.discount%}
-                <span class="text-decoration-line-through fw-bold text-danger">$ {{item.price|mul:article.qty}}</span>
-                <span class="h6 fw-bold">$ {{item.get_discounted_price|mul:article.qty}}</span>
-                {% else%}
                 <span class="h6 fw-bold">$ {{item.price|mul:article.qty}}</span>
-                {% endif%}
+              
               </div>
             </div>
           </div>
@@ -116,7 +110,7 @@
         </div>
       </div>
 
-      <button type="button" class="btn btn-success btn-md text-bg-light mt-4">
+      <button type="button" class="btn btn-primary">
                 
                 <a class="nav-link text-decoration-none" href="{% url 'payment:checkout' %}">Go to checkout</a>
       </button>
