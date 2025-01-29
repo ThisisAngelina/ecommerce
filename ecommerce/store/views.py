@@ -10,7 +10,7 @@ from reviews.models import Review
 class ItemsListView(ListView):
     model = Item
     context_object_name = 'items'
-    paginate_by = 15
+    paginate_by = 10
 
     def get_template_names(self):
         if self.request.htmx: # allow the items html to fish out the items from the items_hx special htmx 

@@ -9,7 +9,7 @@ from store.models import Item
 User = get_user_model()
 
 class ShippingAddress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)

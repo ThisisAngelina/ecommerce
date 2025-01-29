@@ -38,7 +38,7 @@ def checkout(request):
         form = ShippingAddressForm(request.POST, instance=shipping_address) # the ModelForm updates the model instance with the values from request.POST
         if form.is_valid():
             shipping_address = form.save(commit=False) #update the user address in the database based on the information submitted through the form
-            shipping_address.user = request.user
+            shipping_address.user = user
             shipping_address.save()
 
             cart = Cart(request) # create a Cart instance

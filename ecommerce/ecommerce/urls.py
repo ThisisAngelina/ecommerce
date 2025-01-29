@@ -12,6 +12,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('email/', include(email_urls), name='verify_email'),
     path('payment/', include('payment.urls')),
+    path('api/v1/', include('api.urls')),
 
     path('admin/', admin.site.urls), 
 ]

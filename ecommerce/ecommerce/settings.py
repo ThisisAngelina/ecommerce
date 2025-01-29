@@ -59,6 +59,9 @@ INSTALLED_APPS = [
     #'django_celery_beat',
     'django_celery_results',
     'django_htmx',
+    'rest_framework',
+    'djoser',
+    'drf_yasg',
     
 
 
@@ -68,6 +71,8 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'payment.apps.PaymentConfig',
     'reviews.apps.ReviewsConfig',
+    
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
