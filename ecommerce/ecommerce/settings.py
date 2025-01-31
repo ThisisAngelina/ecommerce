@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.runserver_nostatic', # for static files
     'debug_toolbar',
 
     #third party libraries
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     
 ]
@@ -137,8 +139,9 @@ LOGIN_URL = 'account:login'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/' # handle site authors' files 
-STATIC_ROOT = BASE_DIR / 'static' # handle site authors' files 
+STATIC_URL = '/static/'  
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'static'  # handled by whitenoise
 
 MEDIA_URL = '/media/' # handle user-uploaded files 
 MEDIA_ROOT = BASE_DIR / 'media' # handle user-uploaded files 
@@ -252,3 +255,7 @@ DJOSER = {
     'AUTH_HEADER_TYPES': ('JWT',),
 
 }
+
+# Additional security for production
+CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE') # ensures CSRF cookie is sent over HTTPS only
+SESSION_COOKIE_SECURE = env('SESSION_COOKIE_SECURE')  # ensures session cookies are only sent over HTTPS

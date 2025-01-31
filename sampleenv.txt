@@ -1,0 +1,18 @@
+DEBUG=FALSE
+CSRF_COOKIE_SECURE=TRUE  # needed for extra security in production
+SESSION_COOKIE_SECURE=TRUE # needed for extra security in production
+
+EMAIL_HOST_PASSWORD=''
+SECRET_KEY=''
+
+STRIPE_PUBLISHABLE_KEY=0000
+STRIPE_SECRET_KEY=0000
+STRIPE_WEBHOOK_SECRET=0000
+
+DB_URL=postgresql://postgres:
+
+CELERY_BROKER_URL=redis://
+CELERY_RESULT_BACKEND=''
+
+
+ 
