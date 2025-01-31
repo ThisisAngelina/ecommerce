@@ -11,18 +11,10 @@ PROJECT_NAME = 'ReFRESH'
 env = environ.Env()
 env.read_env(BASE_DIR.parent / '.env')
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -230,8 +222,8 @@ STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
 STRIPE_API_VERSION = '2024-12-18.acacia'
 
 # Celery
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND ='django-db'
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
 CELERY_RESULT_EXTENDED = True
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 

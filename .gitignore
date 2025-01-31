@@ -3,3 +3,4 @@ ecommerce/db.sqlite3
 __pycache__
 ecommerce/media
 .env
+.rdb
