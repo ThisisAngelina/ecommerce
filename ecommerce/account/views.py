@@ -1,8 +1,12 @@
+import logging
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django_email_verification import send_email
+
+
+logger = logging.getLogger(__name__)  
 
 User = get_user_model()
 
@@ -26,9 +30,14 @@ def register(request):
 
             user.is_active = False
 
-            send_email(user)
+            try:
+                send_email(user)
+            except:
+                logger.error('Error sending a user registration email confirmation email')
             
             return redirect('/account/verify-email')
+        else:
+            messages.error(request, 'Hmm please try again')
     else:
         form = UserCreateForm()
     return render(request, 'account/registration/register.html', {'form': form}) 
@@ -86,6 +95,8 @@ def manage_profile(request):
         if form.is_valid():
             form.save()
             return redirect('account:view_dashboard')
+        else:
+            messages.error(request, 'Hmm please try again')
     else:
         form = UserUpdateForm(instance=request.user)
     return render(request, 'account/dashboard/manage_profile.html', {'form': form})

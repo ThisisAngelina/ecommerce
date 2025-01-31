@@ -106,9 +106,16 @@
 <script>
     const add_button = document.getElementById('add-button');
     const quantity_selector = document.getElementById('select');
-    
+
+    // pass console.logs to the Python logger for logging
+    function logToDjango(level, message) {
+        const logUrl = `{% url "log_js" %}?level=${encodeURIComponent(level)}&message=${encodeURIComponent(message)}`;
+        fetch(logUrl).catch(error => console.error("Failed to send log to Django:", error));
+    }
+
     $(document).on('click', '#add-button', function (e) {
         e.preventDefault();
+
         $.ajax({
             type: 'POST',
             url: '{% url "cart:add_to_cart" %}',
@@ -119,20 +126,20 @@
                 action: 'POST'
             },
             success: function (response) {
-                document.getElementById('lblCartCount').textContent = response.qty // update the number label next to the cart symbol in the navbar
-                add_button.disabled = true
-                add_button.innerText = "Added to cart"
-                add_button.className = "btn btn-success btn-sm"
-
+                document.getElementById('lblCartCount').textContent = response.qty;
+                add_button.disabled = true;
+                add_button.innerText = "Added to cart";
+                add_button.className = "btn btn-success btn-sm";
+                
+                logToDjango("info", `Item ${add_button.value} added to cart successfully.`);
             },
             error: function (error) {
-                console.log(`there was an error adding the item to the cart: ${error}.`) // TODO add to server logs later
+                const errorMessage = `Error adding item to cart: ${error.statusText || "Unknown error"}.`;
+                console.log(errorMessage);
+                logToDjango("error", errorMessage);
             }
-        })
-
-    })
-
-
+        });
+    });
 </script>
 
 {% endblock %}

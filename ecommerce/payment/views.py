@@ -1,7 +1,8 @@
+import logging
 from decimal import Decimal
 import stripe 
 import weasyprint
-
+from django.contrib import messages
 from django.contrib.staticfiles import finders
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404, HttpResponse
@@ -23,6 +24,8 @@ from .forms import ShippingAddressForm
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.api_version = settings.STRIPE_API_VERSION
 
+logger = logging.getLogger(__name__) 
+
 def checkout(request):
     
     if request.user.is_authenticated:
@@ -42,7 +45,10 @@ def checkout(request):
             shipping_address.save()
 
             cart = Cart(request) # create a Cart instance
-            cart_total = cart.get_total_value()
+            try:
+                cart_total = cart.get_total_value()
+            except:
+                logger.error("Error calculating the total value of the cart at checkout")
 
             order = Order.objects.create(user=user, shipping_address=shipping_address, amount=cart_total) # create a new order instance
 
@@ -70,9 +76,17 @@ def checkout(request):
                         })
             
             session_data['client_reference_id'] = order.id
-            session = stripe.checkout.Session.create(**session_data)
+
+            try:
+                session = stripe.checkout.Session.create(**session_data)
+            except:
+                logger.error('Error creating a Stripe checkout session at checkout')
             return redirect(session.url, code=303) # redirect the user to the success or the cancel url, based on the outcome
-    
+        else:
+            # the submitted form was not valid
+            messages.error(request, "There was an error with your shipping details. Please check the form.")
+            logger.warning(f"Checkout form validation failed for user {user}: {form.errors}") 
+
     else: # request method is not POST:
         form = ShippingAddressForm(instance=shipping_address)
         return render(request, 'payment/checkout.html', {'form': form})
@@ -104,4 +118,7 @@ def admin_order_pdf(request, order_id):
     css_path = finders.find('payment/css/admin_order_pdf.css')
     stylesheets = [weasyprint.CSS(css_path)]
     weasyprint.HTML(string=html).write_pdf(response, stylesheets=stylesheets)
-    return response
+    try:
+        return response
+    except Exception as e:  
+        logger.error(f"Error generating admin order PDF: {e}")  

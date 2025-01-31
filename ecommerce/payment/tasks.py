@@ -16,5 +16,4 @@ def send_order_confirmation(order_id):
     mail_to_sender = send_mail(
         subject,message=message,from_email=settings.EMAIL_HOST_USER, recipient_list=[receipent_email],
     )
-    print('email was handled with celery')
     return mail_to_sender

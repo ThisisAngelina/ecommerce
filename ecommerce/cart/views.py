@@ -1,8 +1,12 @@
+import logging
+
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 
 from store.models import ItemProxy
 from .cart import Cart
+
+logger = logging.getLogger(__name__)  
 
 def cart_view(request):
     cart = Cart(request)
@@ -23,8 +27,7 @@ def cart_add(request):
         cart_qty = cart.__len__()
 
         response = JsonResponse({'qty': cart_qty, 'item': item.name})
-        
-        print(f'item successfully added. There are now {cart.__len__()} items in the cart')
+    
         return response
 
 def cart_update(request):
@@ -37,10 +40,15 @@ def cart_update(request):
 
 
         #recalculate the values for the cart total and the number of items in the cart 
-        cart_qty = cart.__len__()
-        cart_total = cart.get_total_value()
+        try:
+            cart_qty = cart.__len__()
+        except:
+            logger.error('Error calculating the cart item quantity')
+        try:
+            cart_total = cart.get_total_value()
+        except:
+            logger.error('Error calculating the cart total')
 
-        print(f'item successfully updated. There are now {cart_qty} total items in the cart')
         response = JsonResponse({'qty': cart_qty, 'total': cart_total})
         return response 
     
@@ -55,10 +63,15 @@ def cart_delete(request):
         cart.delete(item_id=item_id)
 
         #recalculate the values for the cart total and the number of items in the cart 
-        cart_qty = cart.__len__()
-        cart_total = cart.get_total_value()
+        try:
+            cart_qty = cart.__len__()
+        except:
+            logger.error('Error calculating the cart item quantity')
+        try:
+            cart_total = cart.get_total_value()
+        except:
+            logger.error('Error calculating the cart total')
 
-        print(f'item successfully deleted. There are now {cart_qty} total items in the cart')
         response = JsonResponse({'qty': cart_qty, 'total': cart_total})
         return response 
     

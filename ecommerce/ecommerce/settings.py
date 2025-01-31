@@ -1,3 +1,6 @@
+import os
+import logging
+import logging.config
 from datetime import timedelta
 from pathlib import Path
 import environ
@@ -165,6 +168,49 @@ INTERNAL_IPS = [
     '127.0.0.1',  # Localhost
     '::1',        # IPv6 for localhost
 ]
+
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    # Formatters define how logs are structured
+    'formatters': {
+        'verbose': {
+            'format': '[{levelname}] {asctime} {name} - {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '[{levelname}] {message}',
+            'style': '{',
+        },
+    },
+
+    # Handlers define where logs go
+    'handlers': {
+        'file': {
+            'level': 'WARNING',  # WARNING, ERROR, CRITICAL
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR/ 'logs/django.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'INFO',  # Logs INFO and above to the console (Railway logs)
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+
+    # Loggers define which parts of Django log what
+    'loggers': {
+        '': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO', 
+            'propagate': True,
+        }
+    }
+}
 
 #Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

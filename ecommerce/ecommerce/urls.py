@@ -4,6 +4,8 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django_email_verification import urls as email_urls
 
+from utils import log_js
+
 
 urlpatterns = [
     path('', include('store.urls')),  
@@ -13,6 +15,9 @@ urlpatterns = [
     path('email/', include(email_urls), name='verify_email'),
     path('payment/', include('payment.urls')),
     path('api/v1/', include('api.urls')),
+
+    # needed to pass JS console.logs to the overal logging
+    path('log-js/', log_js, name='log_js'),
 
     path('admin/', admin.site.urls), 
 ]
