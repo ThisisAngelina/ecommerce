@@ -88,7 +88,6 @@ redis-server
 celery -A ecommerce worker -l info
 ```
 
-### **8️⃣ Start the Development Server**
 Set your DEBUG=TRUE in settings.py and run your local server:
 ```bash
 python manage.py runserver
