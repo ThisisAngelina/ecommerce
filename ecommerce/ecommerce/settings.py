@@ -20,8 +20,8 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['web-production-068e.up.railway.app'] 
-CSRF_TRUSTED_ORIGINS = ['web-production-068e.up.railway.app']
+ALLOWED_HOSTS = ['refresh.up.railway.app'] 
+CSRF_TRUSTED_ORIGINS = ['refresh.up.railway.app']
 
 
 # Application definition
