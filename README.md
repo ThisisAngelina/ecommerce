@@ -74,21 +74,21 @@ DATABASES = {
 You can then upload sample products manually or user the **faker** library.
 
 
-### ** 6️⃣ Apply Migrations & Create Superuser**
+### **6️⃣ Apply Migrations & Create Superuser**
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### ** 7️⃣ Run Redis broker, Celery Worker, and Stripe webhook connections**
+### **7️⃣ Run Redis broker, Celery Worker, and Stripe webhook connections**
 ```bash
 stripe listen --forward-to localhost:8000/payment/webhook-stripe/
 redis-server
 celery -A ecommerce worker -l info
 ```
 
-### ** 8️⃣ Start the Development Server**
+### **8️⃣ Start the Development Server**
 Set your DEBUG=TRUE in settings.py and run your local server:
 ```bash
 python manage.py runserver
