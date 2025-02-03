@@ -11,14 +11,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent # the project directory, where
 
 PROJECT_NAME = 'ReFRESH'
 
-# configure the environment
-env = environ.Env()
-env.read_env(BASE_DIR.parent / '.env')
+# configure the environment for development
+#env = environ.Env()use this in development
+#env.read_env(BASE_DIR.parent / '.env') use this in development
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.environ('DEBUG')
 
 ALLOWED_HOSTS = ['refresh.up.railway.app'] 
 CSRF_TRUSTED_ORIGINS = ['refresh.up.railway.app']
@@ -103,7 +103,7 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=env('DB_URL'))
+    'default': dj_database_url.config(default=os.environ('DB_URL'))
 }
 
 
@@ -260,18 +260,18 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'angelina.chigrinetc.dev@gmail.com'
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD = os.environ('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
 # stripe settings
-STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
-STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
+STRIPE_PUBLISHABLE_KEY = os.environ('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = os.environ('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = os.environ('STRIPE_WEBHOOK_SECRET')
 STRIPE_API_VERSION = '2024-12-18.acacia'
 
 # Celery
-CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='redis://localhost:6379')
-CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+CELERY_BROKER_URL = os.environ('CELERY_BROKER_URL', default='redis://localhost:6379')
+CELERY_RESULT_BACKEND = os.environ('CELERY_RESULT_BACKEND')
 CELERY_RESULT_EXTENDED = True
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
@@ -304,5 +304,5 @@ DJOSER = {
 }
 
 # Additional security for production
-CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE') # ensures CSRF cookie is sent over HTTPS only
-SESSION_COOKIE_SECURE = env('SESSION_COOKIE_SECURE')  # ensures session cookies are only sent over HTTPS
+CSRF_COOKIE_SECURE = os.environ('CSRF_COOKIE_SECURE') # ensures CSRF cookie is sent over HTTPS only
+SESSION_COOKIE_SECURE = os.environ('SESSION_COOKIE_SECURE')  # ensures session cookies are only sent over HTTPS
