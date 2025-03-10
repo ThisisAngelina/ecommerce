@@ -1,6 +1,6 @@
 # 🛍️ Django E-commerce Project
-## **Deployed at**
-[Text to Display](https://example.com)
+## **Deployed **
+[Here](refresh.up.railway.app)
 
 
 A **full-featured E-commerce web application** built with Django, PostgreSQL, and Stripe for online transactions.  
